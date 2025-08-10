@@ -148,4 +148,3 @@ sudo tail -f /var/log/Project_backup.log
 
 ---
 
-请记得将 `YOUR_USERNAME` 和 `YOUR_REPO_NAME` 替换为你的实际 GitHub 用户名和仓库名，并根据你的实际情况调整示例中的路径。
