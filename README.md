@@ -67,7 +67,7 @@ rclone config
 打开 `project_backup.sh` 文件，并根据您的项目需求修改 `Configuration Section` 中的变量。
 
 ```bash
-sudo nano /opt/backup_scripts/project_backup.sh
+sudo vim /opt/backup_scripts/project_backup.sh
 ```
 
 **最重要的变量是 `PROJECT_NAME` 和 `SOURCE_DIR`。**
