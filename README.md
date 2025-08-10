@@ -34,18 +34,25 @@
 ```bash
 # 创建目录（如果不存在）
 sudo mkdir -p /opt/backup_scripts/
+```
+```
+# 通过 wget 下载脚本（假设文件名为 project_backup.sh）
+sudo wget -O /opt/backup_scripts/project_backup.sh https://github.com/nodeloc666/rclone-backup-script/raw/main/project_backup.sh
+```
 
-# 通过 wget 下载脚本（假设文件名为 generic_backup.sh）
-sudo wget -O /opt/backup_scripts/generic_backup.sh https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/raw/main/generic_backup.sh
-
+```bash
+# 下载到当前目录
+curl -LO https://raw.githubusercontent.com/nodeloc666/rclone-backup-script/main/project_backup.sh
+```
+```
 # 或者，如果您已经克隆了整个仓库
-# sudo cp generic_backup.sh /opt/backup_scripts/
+sudo cp project_backup.sh /opt/backup_scripts/
 ```
 
 ### 2. 设置执行权限
 
 ```bash
-sudo chmod +x /opt/backup_scripts/generic_backup.sh
+sudo chmod +x /opt/backup_scripts/project_backup.sh
 ```
 
 ### 3. 配置 Rclone
@@ -60,10 +67,10 @@ rclone config
 
 ### 4. 编辑脚本配置
 
-打开 `generic_backup.sh` 文件，并根据您的项目需求修改 `Configuration Section` 中的变量。
+打开 `project_backup.sh` 文件，并根据您的项目需求修改 `Configuration Section` 中的变量。
 
 ```bash
-sudo nano /opt/backup_scripts/generic_backup.sh
+sudo nano /opt/backup_scripts/project_backup.sh
 ```
 
 **最重要的变量是 `PROJECT_NAME` 和 `SOURCE_DIR`。**
@@ -76,10 +83,10 @@ sudo nano /opt/backup_scripts/generic_backup.sh
 
 ```bash
 # 手动测试运行示例
-sudo ENCRYPTION_PASSWORD="YourStrongEncryptionPassword" /opt/backup_scripts/generic_backup.sh
+sudo ENCRYPTION_PASSWORD="YourStrongEncryptionPassword" /opt/backup_scripts/project_backup.sh
 
 # 配置 Cron Job 时（见下一步）
-# 0 3 * * * ENCRYPTION_PASSWORD="YourStrongEncryptionPassword" /opt/backup_scripts/generic_backup.sh >> /dev/null 2>&1
+# 0 3 * * * ENCRYPTION_PASSWORD="YourStrongEncryptionPassword" /opt/backup_scripts/project_backup.sh >> /dev/null 2>&1
 ```
 
 ### 6. 配置定时任务 (Cron Job)
@@ -93,8 +100,8 @@ sudo crontab -e
 添加一行到文件中，例如每天凌晨 3 点执行备份：
 
 ```cron
-# 每天凌晨 3 点执行 'Moontv' 项目备份
-0 3 * * * ENCRYPTION_PASSWORD="YourSecretMoontvPassword" /opt/backup_scripts/generic_backup.sh >> /dev/null 2>&1
+# 每天凌晨 3 点执行 'Project' 项目备份
+0 3 * * * ENCRYPTION_PASSWORD="YourSecretProjectPassword" /opt/backup_scripts/project_backup.sh >> /dev/null 2>&1
 
 # 如果是另一个项目，例如 'CRM'，您可以复制脚本并修改 PROJECT_NAME
 # 假设您已将脚本复制并修改为 backup_crm.sh
@@ -110,13 +117,13 @@ sudo crontab -e
 
 | 变量名                | 描述                                                                                                                                              | 默认值/示例            |
 | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------- |
-| `PROJECT_NAME`        | **必填。** 定义项目的名称。此名称用于日志文件、备份文件和 Rclone 目标路径，也会出现在日志消息中。**此为脚本适配不同项目的核心变量。**              | `"Moontv"`             |
-| `LOG_FILE`            | 备份操作的日志文件完整路径。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/log/moontv_backup.log`。每次执行都会追加日志。                     | `"/var/log/${PROJECT_NAME,,}_backup.log"` |
-| `SOURCE_DIR`          | **必填。** 待备份的源目录的完整路径。默认根据 `PROJECT_NAME` 的小写形式生成（例如 `/moontv`），**如果您的源代码目录不同，请务必手动调整此值。** | `"/bash/${PROJECT_NAME,,}"` |
-| `TEMP_BACKUP_DIR`     | 备份文件 (`.zip`) 的临时存放目录。脚本会在需要时自动创建此目录。确保此目录有足够的磁盘空间和写入权限。                                            | `"/var/backups"`       |
-| `CURRENT_ZIP_FILE`    | 生成的加密压缩文件的完整路径及文件名。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/backups/moontv_data.zip`。                             | `"${TEMP_BACKUP_DIR}/${PROJECT_NAME,,}_data.zip"` |
-| `RCLONE_TARGET`       | `rclone` 远程存储的目标路径。格式为 `<Rclone远程名称>:/<目标路径>`。例如，如果您在 `rclone config` 中配置了一个名为 `R2` 的远程连接。 | `"R2:/backup/${PROJECT_NAME,,}"` |
-| `REQUIRED_DEPS`       | 脚本运行所需的核心依赖（命令）列表，默认为 `zip` 和 `rclone`。                                                                                   | `("zip" "rclone")`     |
+| `PROJECT_NAME`        | **必填。** 定义项目的名称。此名称用于日志文件、备份文件和 Rclone 目标路径，也会出现在日志消息中。**此为脚本适配不同项目的核心变量。**              | `"Project"`             |
+| `LOG_FILE`            | 备份操作的日志文件完整路径。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/log/Project_backup.log`。每次执行都会追加日志。                     | `"/var/log/${PROJECT_NAME,,}_backup.log"`或者**自定义** |
+| `SOURCE_DIR`          | **必填。** 待备份的源目录的完整路径。默认根据 `PROJECT_NAME` 的小写形式生成（例如 `/Project`），**如果您的源代码目录不同，请务必手动调整此值。** | `"/bash/${PROJECT_NAME,,}"` |
+| `TEMP_BACKUP_DIR`     | 备份文件 (`.zip`) 的临时存放目录。脚本会在需要时自动创建此目录。确保此目录有足够的磁盘空间和写入权限。                                            | `"/var/backups"`或者**自定义**       |
+| `CURRENT_ZIP_FILE`    | 生成的加密压缩文件的完整路径及文件名。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/backups/Project_data.zip`。                             | `"${TEMP_BACKUP_DIR}/${PROJECT_NAME,,}_data.zip"`或者**自定义** |
+| `RCLONE_TARGET`       | `rclone` 远程存储的目标路径。格式为 `<Rclone远程名称>:/<目标路径>`。例如，如果您在 `rclone config` 中配置了一个名为 `R2` 的远程连接。 | `"R2:/backup/${PROJECT_NAME,,}"`或者**自定义** |
+| `REQUIRED_DEPS`       | 脚本运行所需的核心依赖（命令）列表，默认为 `zip` 和 `rclone`。一般无需配置。                                                                                  | `("zip" "rclone")`     |
 | `ENCRYPTION_PASSWORD` | **环境变量。** 备份文件加密所需的密码。**此密码必须通过环境变量传递给脚本，切勿硬编码在脚本文件内。**                                          | N/A (通过环境变量设置) |
 
 ## 日志文件
@@ -124,7 +131,7 @@ sudo crontab -e
 所有备份操作的输出都会被重定向到 `${LOG_FILE}`。您可以定期检查此文件来监控备份状态和排查问题。
 
 ```bash
-sudo tail -f /var/log/moontv_backup.log
+sudo tail -f /var/log/Project_backup.log
 ```
 
 ## 注意事项
