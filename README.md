@@ -1,13 +1,10 @@
-好的，这是一个为你的通用备份脚本设计的 `README.md` 文件。它包含了简单的介绍、特性列表、使用说明以及所有配置变量的详细解释。
-
----
 
 # Generic Server Data Backup Script
 
 ![Bash](https://img.shields.io/badge/Shell_Script-Bash-blue?style=for-the-badge&logo=gnu-bash)
 ![Rclone](https://img.shields.io/badge/Rclone-Cloud_Sync-orange?style=for-the-badge&logo=generic)
 ![Zip](https://img.shields.io/badge/Compression-Zip-green?style=for-the-badge&logo=zip)
-![License](https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO_NAME?style=for-the-badge)
+![License](https://img.shields.io/github/license/nodeloc666/rclone-backup-script?style=for-the-badge)
 
 ## 简介
 
@@ -121,7 +118,7 @@ sudo crontab -e
 | `LOG_FILE`            | 备份操作的日志文件完整路径。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/log/Project_backup.log`。每次执行都会追加日志。                     | `"/var/log/${PROJECT_NAME,,}_backup.log"`或者**自定义** |
 | `SOURCE_DIR`          | **必填。** 待备份的源目录的完整路径。默认根据 `PROJECT_NAME` 的小写形式生成（例如 `/Project`），**如果您的源代码目录不同，请务必手动调整此值。** | `"/bash/${PROJECT_NAME,,}"` |
 | `TEMP_BACKUP_DIR`     | 备份文件 (`.zip`) 的临时存放目录。脚本会在需要时自动创建此目录。确保此目录有足够的磁盘空间和写入权限。                                            | `"/var/backups"`或者**自定义**       |
-| `CURRENT_ZIP_FILE`    | 生成的加密压缩文件的完整路径及文件名。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/backups/Project_data.zip`。                             | `"${TEMP_BACKUP_DIR}/${PROJECT_NAME,,}_data.zip"`或者**自定义** |
+| `CURRENT_ZIP_FILE`    | 生成的加密压缩文件的完整路径及文件名。文件命名会包含 `PROJECT_NAME` 的小写形式，例如 `/var/backups/Project_data.zip`。                             | `"${TEMP_BACKUP_DIR}/${PROJECT_NAME,,}_data.zip"`或者**自定义**，与`TEMP_BACKUP_DIR`相同则不会保留在服务器 |
 | `RCLONE_TARGET`       | `rclone` 远程存储的目标路径。格式为 `<Rclone远程名称>:/<目标路径>`。例如，如果您在 `rclone config` 中配置了一个名为 `R2` 的远程连接。 | `"R2:/backup/${PROJECT_NAME,,}"`或者**自定义** |
 | `REQUIRED_DEPS`       | 脚本运行所需的核心依赖（命令）列表，默认为 `zip` 和 `rclone`。一般无需配置。                                                                                  | `("zip" "rclone")`     |
 | `ENCRYPTION_PASSWORD` | **环境变量。** 备份文件加密所需的密码。**此密码必须通过环境变量传递给脚本，切勿硬编码在脚本文件内。**                                          | N/A (通过环境变量设置) |
