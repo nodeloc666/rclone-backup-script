@@ -24,6 +24,7 @@
 - [📦 通知格式详解 (Payloads)](#-通知格式详解-payloads)
 - [📋 依赖组件](#-依赖组件)
 - [📄 许可](#-许可)
+- [注意事项](#-注意事项)
 
 ---
 
@@ -32,7 +33,7 @@
 -   📂 **自动化备份**: 自动打包指定目录。
 -   🔐 **强制加密**: 使用 `zip` 的内置加密功能保护备份文件安全。
 -   ☁️ **云端同步**: 无缝集成 [Rclone](https://rclone.org/)，支持将备份上传到任何 Rclone 支持的云存储服务（如 S3, Google Drive, R2 等）。
--   ♻️ **智能远程清理**: 自动删除云端的旧备份，仅保留指定数量的最新版本。
+-   ♻️ **智能远程清理**: 自动删除云端的旧备份，仅保留**指定数量**的最新版本。
 -   📢 **多渠道通知**: 原生支持企业微信、钉钉、飞书、Telegram 和通用 Webhook，发送格式精美的成功或失败通知。
 -   -   **强大的错误处理**: 记录详细的失败原因，并在失败时立即退出。
 
@@ -64,18 +65,16 @@ graph TD
 
 您可以使用 `wget` 或 `curl` 下载此脚本。推荐将其重命名为 `backup.sh` 以方便管理。
 
-> **提示**: 请将下面的占位符 URL 替换为脚本的真实 Raw 文件链接（例如，从 Gist 或 GitHub 仓库获取）。
-
 #### 使用 `wget`
 
 ```sh
-wget -O backup.sh https://gist.githubusercontent.com/username/gist_id/raw/script_version/backup_script.sh
+wget -O backup.sh https://raw.githubusercontent.com/nodeloc666/rclone-backup-script/refs/heads/main/backup.sh
 ```
 
 #### 使用 `curl`
 
 ```sh
-curl -L -o backup.sh https://gist.githubusercontent.com/username/gist_id/raw/script_version/backup_script.sh
+curl -L -o backup.sh https://raw.githubusercontent.com/nodeloc666/rclone-backup-script/refs/heads/main/backup.sh
 ```
 ---
 
@@ -116,9 +115,6 @@ chmod +x backup.sh
 ### 2. 设置加密密码 (安全警告)
 
 脚本通过读取环境变量 `ENCRYPTION_PASSWORD` 来获取加密密码。
-
-> **安全最佳实践**: **永远不要将密码硬编码在脚本中！** 使用环境变量可以避免将敏感信息暴露在文件中。直接在命令行 `export` 会将密码留在你的 shell 历史记录中，对于生产环境，建议使用更安全的方式管理密钥（如 Vault, AWS Secrets Manager, 或 `source` 一个受限权限的文件）。
-
 
 在终端中设置环境变量：
 
@@ -248,7 +244,14 @@ export ENCRYPTION_PASSWORD="Your-Super-Secret-Password-Here-123!"
 -   `curl`: 用于发送 Webhook 通知。
 
 ---
-
+## 注意事项
+1. 仅测试了**企业微信bot**和一般**通用webhook**，可以正常通知，其他的未测试，**不一定能正常使用**。
+2. webhook可以使用[moepush](https://github.com/beilunyang/moepush),cloudflare部署，支持广泛，实用性强。
+3. 有bug可以提issue，不过我不一定会修（除非bug比较大），把脚本喂给AI比我来得快。
+4. 脚本无法做到绝对的安全，有按任何安全问题概不负责！
+5. 通知格式有点丑，懒得去美化了，反正能用就行。
+6. 设置了远程版本控制（自己设置的文件数），但不知道能否保证同目录下其他文件安全，所以建议一个项目一个文件夹，安全些
+7. 本地好像没有对应的版本删除，可能得手动删除本地文件。（Gemini key用完了，明天再修吧）
 ## 📄 许可
 
 此项目根据 [MIT License](LICENSE) 授权。
