@@ -43,7 +43,7 @@ graph TD
 
 ```bash
 # 使用 curl
-curl -L -o backup.sh "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/backup.sh"
+curl -L -o backup.sh "https://raw.githubusercontent.com/nodeloc666/rclone-backup-script/main/backup.sh"
 ```
 ```bash
 # 或者使用 wget
