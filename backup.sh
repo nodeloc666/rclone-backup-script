@@ -26,7 +26,7 @@ set -o pipefail
 # --- User Configuration Section (Modify the values below to fit your needs) ---
 # ==============================================================================
 ### --- 1. Project & Path Configuration ---
-readonly PROJECT_NAME="Moontv_PROD"
+readonly PROJECT_NAME="MywebAPP"
 readonly SOURCE_DIR="/${PROJECT_NAME,,}"
 readonly LOG_FILE="/var/log/${PROJECT_NAME,,}_backup.log"
 readonly TEMP_BACKUP_DIR="/var/backups"
