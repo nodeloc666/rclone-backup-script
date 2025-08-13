@@ -252,9 +252,3 @@ export ENCRYPTION_PASSWORD="Your-Super-Secret-Password-Here-123!"
 ## 📄 许可
 
 此项目根据 [MIT License](LICENSE) 授权。
-
----
-
-## 📄 许可
-
-此项目根据 [MIT License](LICENSE) 授权。
