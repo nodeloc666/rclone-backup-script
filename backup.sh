@@ -43,11 +43,9 @@ readonly NOTIFICATION_MODE="all"
 
 # Select your notification service provider
 # Options: "wecom", "dingtalk", "feishu", "telegram", "generic", "none"
-readonly NOTIFICATION_PROVIDER="generic"
-
+readonly NOTIFICATION_PROVIDER="wecom" # Changed to wecom for testing, change as needed.
 # Provider-specific URLs and Settings
-readonly WEBHOOK_URL="https://moepush.lp1314.eu.org/api/push/nqJepBdnUa30FATn"
-# readonly WEBHOOK_URL="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ed337280-b3c3-470d-bd98-7b15ebd5f2cb"
+readonly WEBHOOK_URL="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_WECOM_BOT_KEY" # YOUR_WECOM_BOT_KEY
 # Telegram Specific (only used if NOTIFICATION_PROVIDER is "telegram")
 readonly TELEGRAM_CHAT_ID="<YOUR_CHAT_ID>"
 
